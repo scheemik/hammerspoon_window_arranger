@@ -1,7 +1,7 @@
 # Hammerspoon Window Arranger
 
 A [Hammerspoon](https://github.com/Hammerspoon) script to rearrange windows to a
-fixed configuration on MacOS.
+fixed configuration on MacOS, when you have multiple Spaces and multiple monitors.
 
 
 ## Why
