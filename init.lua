@@ -12,44 +12,16 @@ local app_layout = {
 --     R={{"Messages"}, {"Mail"}},
 -- }
 
-
--- Automatically reload the Hammerspoon init.lua file when it changes
-function reloadConfig(files)
-    doReload = false
-    for _,file in pairs(files) do
-        if file:sub(-4) == ".lua" then
-            doReload = true
-        end
-    end
-    if doReload then
-        hs.reload()
-    end
-end
-myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
-hs.alert.show("Hammerspoon init.lua loaded")
-
--- Convert object to string for debugging
-function dump(o)
-   if type(o) == 'table' then
-      local s = '{ '
-      for k,v in pairs(o) do
-         if type(k) ~= 'number' then k = '"'..k..'"' end
-         s = s .. '['..k..'] = ' .. dump(v) .. ','
-      end
-      return s .. '} '
-   else
-      return tostring(o)
-   end
-end
-
-
 local cmd_alt = {"cmd", "alt"}
 local cmd_alt_ctrl = {"cmd", "alt", "ctrl"}
+
 -- local monitor_left = "DELL U2717D"
 -- local monitor_center = "LG Ultra HD"
 -- local monitor_right = "Built-in Retina Display"
 
--- Create a table that looks like this:
+
+-- Interrogate the display configuration to get the arrangement of screens and
+-- spaces.  Create a table that looks like this:
 -- {
 --    ["L"] = { screen_uuid, screen_num, { space_id, ...} },
 --    ["C"] = { screen_uuid, screen_num, { space_id, ...} },
@@ -79,7 +51,8 @@ function get_layout()
     return layout
 end
 
--- If the monitor ("L", "C", or "R") has fewer than num_spaces, add spaces
+-- If the monitor ("L", "C", or "R") has fewer than num_spaces spaces, add
+-- spaces
 function ensure_spaces_on_monitor(num_spaces, monitor)
     local layout = get_layout()
 
@@ -87,7 +60,7 @@ function ensure_spaces_on_monitor(num_spaces, monitor)
     local num_spaces_needed = num_spaces - #mon_layout["spaces"]
 
     if num_spaces_needed > 0 then
-        for i=1, num_spaces_needed do
+        for i=1,num_spaces_needed do
             -- Add a space to the screen
             if not hs.spaces.addSpaceToScreen(mon_layout["screen_uuid"], true) then
                 hs.alert.show("Failed to add Space to " .. monitor .. " monitor")
@@ -205,7 +178,7 @@ function mv_win_to_space(win, space)
         -- then move the window to the screen.  This results in a lot
         -- of extraneous window motion that it would be nice to avoid.
         win:focus()
-        hs.timer.usleep(1500000) -- delay for 1.5 second
+        hs.timer.usleep(1500000) -- delay for 1.5 second for animation
         activate_space(space)
         mv_win_to_screen(win, hs.spaces.spaceDisplay(space))
 
@@ -223,51 +196,33 @@ hs.hotkey.bind(cmd_alt_ctrl, "A", function()
     arrange()
 end)
 
--- Move the current window to the next space on the same screen (doesn't work)
-function advanceWindow()
-    local offset = 1
-    local window = hs.window.focusedWindow()
 
-    local targetSpaceID = hs.spaces.windowSpaces(window)[1]
-    local currentScreen = nil
-    local currentIndex = nil
-
-    for screen, spaces in pairs(hs.spaces.allSpaces()) do
-        for index, space in ipairs(spaces) do
-            if targetSpaceID == space then
-                currentScreen = screen
-                currentIndex = index
-                break
-            end
+-- Automatically reload the Hammerspoon init.lua file when it changes
+function reloadConfig(files)
+    doReload = false
+    for _,file in pairs(files) do
+        if file:sub(-4) == ".lua" then
+            doReload = true
         end
-        if current_space ~= nil then break end
     end
-
-    local nextIDs = hs.spaces.allSpaces()[currentScreen]
-    local nextIndex = (currentIndex + offset) % #nextIDs
-    local nextSpaceID = nextIDs[nextIndex]
-
-    hs.timer.usleep(1500000) -- delay for 1.5 second
-    hs.spaces.moveWindowToSpace(window, nextSpaceID)
-    hs.timer.usleep(1500000) -- delay for 1.5 second
-    hs.spaces.gotoSpace(nextSpaceID)
-    hs.timer.usleep(1500000) -- delay for 1.5 second
-end
-
-
--- Experimental
-hs.hotkey.bind(cmd_alt_ctrl, "I", function()
-    advanceWindow()
-end)
-
-function get_window_layout()
-    local wins = hs.window.allWindows()
-    print(#wins .. " running applications")
-    for i = 1, #wins do
-        print(wins[i]:application():name())
+    if doReload then
+        hs.reload()
     end
 end
+myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+hs.alert.show("Hammerspoon init.lua loaded")
 
-hs.hotkey.bind(cmd_alt_ctrl, "W", function()
-    get_window_layout()
-end)
+
+-- Convert object to string for debugging
+function dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end

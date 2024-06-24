@@ -1,6 +1,7 @@
-# Hammerspoon Arrange Windows
+# Hammerspoon Window Arranger
 
-A Hammerspoon script to rearrange windows to a fixed configuration on MacOS.
+A [Hammerspoon](https://github.com/Hammerspoon) script to rearrange windows to a
+fixed configuration on MacOS.
 
 
 ## Why
@@ -34,6 +35,9 @@ Space on the Center Screen.  Move *Messages*, *Slack*, and *Messenger* to the
 first Space on the Right Screen.  Move *Mail* to the second Space on the Right
 screen.
 
+Some of the operations on Spaces cause Mission Control to open and close, which
+creates a lot of motion.  You just have to ignore it for now.
+
 
 ## What it doesn't do
 - Preserve the window size and position
@@ -56,3 +60,9 @@ screen.
 - Detect different monitor configurations and restore the windows accordingly
 - Delete empty spaces
 - Move unmentioned windows to a specific Space
+
+
+## See Also
+- [A nifty window layout switcher for macOS using Hammerspoon](https://shantanugoel.com/2020/08/21/hammerspoon-multiscreen-window-layout-macos/)
+  - Tiles windows in quadrants
+  - Doesn't handle Spaces
