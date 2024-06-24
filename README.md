@@ -68,3 +68,17 @@ creates a lot of motion.  You just have to ignore it for now.
 - [A nifty window layout switcher for macOS using Hammerspoon](https://shantanugoel.com/2020/08/21/hammerspoon-multiscreen-window-layout-macos/)
   - Tiles windows in quadrants
   - Doesn't handle Spaces
+- [Hammerspoon: Handling Windows and Layouts](https://evantravers.com/articles/2020/06/12/hammerspoon-handling-windows-and-layouts/)
+  - Has trigger for docking/undocking the laptop
+  - Also does tiling
+  - Also doesn't handle Spaces
+  - Makes Lua look like Javascript; mine makes Lua look like Python
+- [AppWindowSwitcher Spoon](https://www.hammerspoon.org/Spoons/AppWindowSwitcher.html)
+  - Also doesn't handle Spaces
+- [Next/Previous 'Space' in Hammerspoon](https://blog.jverkamp.com/2023/01/30/next/previous-space-in-hammerspoon/)
+  - Claims that you can move a window to a Space simply by
+    ```lua
+    hs.spaces.moveWindowToSpace(win, space)
+    hs.spaces.gotoSpace(space)
+    ```
+    If I could get that to work, I could simplify my code significantly.
