@@ -2,8 +2,8 @@
 -- Note:  Preview windows don't seem to be movable using the techniques here.
 --        I can't seem to get a window object to manipulate.
 local app_layout = {
-    L={{"Firefox", "Obsidian"}},
-    C={{"Maps", "Calendar"}, {"Excel", "Evernote", "Code", "Preview", "iTerm"}},
+    L={{"Firefox", "Obsidian"}, {"Postgres", "Beekeeper Studio", "Postico"}},
+    C={{"Maps", "Calendar"}, {"Excel", "Evernote", "Code", "Preview", "iTerm", "Word", "Books", "Photoshop"}},
     R={{"Messages", "Slack", "Messenger"}, {"Mail"}},
 }
 
